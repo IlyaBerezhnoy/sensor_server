@@ -12,8 +12,9 @@ set(SERVER_FILES
     server.py
     )
 
+set(SPEECH_SERVER ./speech-kit)
 foreach(FILE ${SERVER_FILES})
-  configure_file(${FILE} ${CMAKE_CURRENT_BINARY_DIR}/${FILE})
+  configure_file(${SPEECH_SERVER}/${FILE} ${CMAKE_CURRENT_BINARY_DIR}/${FILE})
 endforeach(FILE)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
