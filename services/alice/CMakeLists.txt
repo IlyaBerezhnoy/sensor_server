@@ -25,5 +25,5 @@ include_directories(
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 add_dependencies(${PROJECT_NAME} fnode)
-target_link_libraries(${PROJECT_NAME} curl fnode)
+target_link_libraries(${PROJECT_NAME} fnode)
 
