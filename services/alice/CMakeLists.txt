@@ -17,6 +17,11 @@ foreach(FILE ${SERVER_FILES})
   configure_file(${SPEECH_SERVER}/${FILE} ${SHELLED_OUTPUT_DIR}/${FILE})
 endforeach(FILE)
 
+include_directories(
+    ../../snode/fnode/include
+    ../../snode/fcommon/include
+    )
+
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 add_dependencies(${PROJECT_NAME} fnode)

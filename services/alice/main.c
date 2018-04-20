@@ -1,26 +1,44 @@
 #include <stdio.h>
 #include <curl/curl.h>
 
+#include <fnode/service.h>
+
 void postToSpeech(CURL *, const char *);
 void postToReplay(CURL *);
 
+CURL * curl = NULL;
+
+void handler(uint32_t cmd, char const * data) {
+  postToSpeech(curl, data); 
+}
+
 int main(int argc, char ** argv) {
   curl_global_init(CURL_GLOBAL_ALL);
-
-  CURL * curl;
-
   curl = curl_easy_init();
 
   if ( !curl ) {
-    printf("Failed to init curl driver\n");
+    fprintf(stderr, "Failed to init curl driver\n");
     return 1;
   }
 
-  postToSpeech(curl, "курлы, курлы, курлы");
-  postToReplay(curl);
+  // Creating service
+  fnode_service_t * service = fnode_service_create("alice007", "TDAC");
+
+  if ( !service ) {
+    fprintf(stderr, "Failed to create TDAC service\n");
+    return -1;
+  }
+
+  fnode_service_reg_handler(service, handler);
+
+  for(;;) {
+    fnode_service_update(service);
+  }
 
   curl_easy_cleanup(curl);
   curl_global_cleanup();
+
+  fnode_service_release(service);
   return 0;
 }
 
